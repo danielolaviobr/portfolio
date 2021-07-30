@@ -1,0 +1,142 @@
+---
+title: Working with relations in Prisma - One-to-Many
+publishedAt: 2021-06-09
+description: Database relations can be confusing at times, and working with then may bring more pain than joy. But it does not have to be like this.
+category: post
+---
+
+Database relations can be confusing at times, and working with then may bring more pain than joy. But it does not have to be like this, [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) is the most modern and simplest to use ORM available today. It is fully integrated with TypeScript, so your queries are now type-safe, and it has support for the most popular databases such as: PostgreSQL, MySQL, SQLite and more coming soon. So let's see how you can get started with Prisma and how to work with relations.
+
+# Setup
+
+First you need to install [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) on your project. This example will be using GraphQL in a Node.js application, but it has support for various other frameworks. You can run the following commands to install it on your application:
+
+```bash
+yarn add  -D prisma
+```
+
+With prisma installed, you can now initialize our project by running the following command:
+
+```bash
+yarn prisma init
+```
+
+This will generate a `prisma` folder in the root of the project, with a single file, `schema.prisma`. This is where you will create all your models and relations.
+
+Before you continue, I highly recommend installing the [Prisma extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) in VS Code, it will help you format your models inside of the `schema.prisma` and it gives you autocompletion for fields and relations.
+
+The last configuration left to do is to create a `dev.db` file inside of the `prisma` folder that was previously generated. This will be SQLite database where you will store your data. To connect Prisma to it change the `schema.prisma` file to the following:
+
+```prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+```
+
+# Creating Models
+
+To start using your database you first need to create your data models, those will describe the tables in your database. You can create a simple model like the one below:
+
+## Video Model
+
+```prisma
+model Video {
+  id          String   @id @default(cuid())
+  title       String
+  url         String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("videos")
+}
+```
+
+The `Video` model is describing what will be available in the `videos` table in the database, this connection between the model and the table is done by the `@@map()` function. Note that it is not mandatory, if it is not provided in the model, the table in the database will have the same name as the model.
+
+### id
+
+The first element that it is defined in the model is the `id`, its data type is defined as a string, Prisma will map this the corresponding data type supported by the database. It is marked with the `@id`that lets Prisma and the database know that this is the table primary key. Following it is the `@default()` function, this will assign a default value to the field, if one is not provided. In this case the `cuid()` function was passed as a parameter so the default value for the id will be a cuid (Cluster Unique Identifier).
+
+### title
+
+The following element is the `title` this is simply defined as a string, and is non-nullable. This is denote by not having a `?` in the end of the field type. Since the `title` is typed as `String` the field can not be `null`.
+
+### url
+
+Just like the previous ones the `url` is defined as a string, but it is marked as a `@unique`, this means that the value stored there can not appear again in this table. So in this example, there won't be two videos with the same `url`. This will help querying the database in the future as well.
+
+### description
+
+The `description` is very similar to the `title`, but the key difference is that after the data type is defined there is a `?`. This means that this field is nullable in the database. So if not provided it will just be empty. For reference the type of this field in TypeScript would be `string | null`
+
+### createdAt
+
+Last but not least is the `createdAt` field. This fields data type is defined as `DateTime`, this means it will be stored as a timestamp in the database. The `@default()` function defines what will be the default value for this field, if nothing is provided. Inside the default function is the `now()` function, this function will return the current timestamp when the data was created. It works similar to the `new Date()` in JavaScript. The last thing in this field is the `@map()` function, just like one used to link the model to the database, this will connect the table field with the model field. This means that in the database this field will be called `created_at` and in code it will be referred as `createdAt`. Just like the `@@map()` the `@map` is optional, if it is not provided, both the model and table field will have the same name defined in the model.
+
+## Creator Model
+
+```prisma
+model Creator {
+  id   String @id @default(cuid())
+  name String
+
+  @@map("creators")
+}
+```
+
+The `Creator` model describes what the `creators` table in the database will be like. This model uses the same things that were already talked about previously in the `Video` model.
+
+# Making the relation
+
+One of the most useful relations is the one-to-many. This means that one element is can be connected to multiple elements in a different table. In this example one creator can have (be connected to) many videos. To create this type of relation you will need to add the following entry to the `Creator` model, it will look like this.
+
+```
+model Creator {
+  id     String   @id @default(cuid())
+  name   String
+  videos Video[]
+
+  @@map("creators")
+}
+```
+
+### videos
+
+The `videos` field has the `Video` type. This means that the data inside of this field is a video just as described in the model. The `[]` in the end of the data type means that it can be multiple, this is how you tell Prisma that this is a one-to-many relation, because one creator has many videos. If you have the [Prisma extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) you noticed that when you saved the file it created two new fields in the `Video` model, they are as such:
+
+```prisma
+model Video {
+  id          String   @id @default(cuid())
+  title       String
+  url         String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  creator   Creator? @relation(fields: [creatorId], references: [id])
+  creatorId String
+
+  @@map("videos")
+}
+```
+
+### creator
+
+Just like the `video` field that was of type `Video`, the `creator` field is of type `Creator`. The field is also marked with the `?` to tell Prisma that it is a nullable field, and it also has the `@relation()` function. This function receives two parameters, the `fields` and the `references`, they are both arrays, but for simplicity you can consider then as arrays with a single string in them. The `fields` will tell the relation function what field(s) in the current model are needed to match with the referenced model. In this case it is the `creatorId` that is the foreign key coming from the `creators` table. The `references` will tell what field in the referenced model has the data to connect to the current model, it will usually be the field marked with the `@id`.
+
+# Generating migration
+
+To save your changes in the database and generate the tables based on the models it's recommended that you use migrations. This will help you keep a better version control of you database. To do so with the Prisma CLI is very simple, just run the following command:
+
+```bash
+yarn prisma migrate dev --name init
+```
+
+This will generate a migration named `init`, to give it another name just change the text after the `--name` and prisma will recognize it as the migration name.
+
+# Conclusion
+
+With [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) this is all you need to build a one-to-many relation. If you still have any question you can join the [Prisma Slack](https://slack.prisma.io/). You can clone this project [GitHub Repository](https://github.com/danielolaviobr/prisma-one-to-many-example) and give it a try.

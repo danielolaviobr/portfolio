@@ -9,14 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^1.6.22",
+    "@next/mdx": "^11.0.1",
+    "@tailwindcss/line-clamp": "^0.2.1",
+    "date-fns": "^2.23.0",
     "esbuild": "^0.12.16",
-    "mdx-bundler": "^5.1.2",
-    "next": "11.0.1",
+    "glob": "^7.1.7",
+    "gray-matter": "^4.0.3",
+    "mdast-util-mdx": "^0.1.0",
+    "mdx-bundler": "^5.2.1",
+    "next": "11.0.1@canary",
+    "next-transpile-modules": "^8.0.0",
+    "prism-react-renderer": "^1.2.1",
+    "prismjs": "^1.24.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-rough-notation": "^1.0.1"
+    "react-rough-notation": "^1.0.1",
+    "remark-gfm": "^1.0.0",
+    "remark-slug": "^6.1.0"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.4",
+    "@types/prismjs": "^1.16.6",
     "@types/react": "^17.0.15",
     "autoprefixer": "^10.3.1",
     "eslint": "7.31.0",
