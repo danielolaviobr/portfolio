@@ -8,10 +8,10 @@ import glob from "glob";
 import matter from "gray-matter";
 
 const ROOT_PATH = process.cwd();
-export const POSTS_PATH = path.join(ROOT_PATH, "posts");
+export const MDX_PATH = path.join(ROOT_PATH, "mdx");
 
 export const getAllPostsMeta = (category?: PostMeta["category"]) => {
-  const PATH = path.join(POSTS_PATH);
+  const PATH = path.join(MDX_PATH);
 
   const paths = glob.sync(`${PATH}/**/*.mdx`);
 
@@ -41,11 +41,11 @@ export const getAllPostsMeta = (category?: PostMeta["category"]) => {
 };
 
 export const getPostBySlug = async (slug: string) => {
-  const filePath = path.join(POSTS_PATH, `${slug}.mdx`);
+  const filePath = path.join(MDX_PATH, `${slug}.mdx`);
   const source = fs.readFileSync(filePath, "utf8");
 
   const { code, frontmatter } = await bundleMDX(source, {
-    cwd: POSTS_PATH,
+    cwd: MDX_PATH,
     xdmOptions(options) {
       options.remarkPlugins = [
         ...(options?.remarkPlugins ?? []),

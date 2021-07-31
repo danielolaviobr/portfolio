@@ -95,7 +95,7 @@ The `Creator` model describes what the `creators` table in the database will be 
 
 One of the most useful relations is the one-to-many. This means that one element is can be connected to multiple elements in a different table. In this example one creator can have (be connected to) many videos. To create this type of relation you will need to add the following entry to the `Creator` model, it will look like this.
 
-```
+```prisma
 model Creator {
   id     String   @id @default(cuid())
   name   String

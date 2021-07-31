@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/display-name */
 import Image from "next/image";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Prism from "prismjs";
 
 (typeof global !== "undefined" ? global : window).Prism = Prism;
@@ -10,8 +10,8 @@ Prism.languages.prisma = Prism.languages.extend("clike", {
   "type-class-name": /(\b()\s+)[\w.\\]+/,
 });
 
-// Prism?.languages?.javascript?["class-name"]?[0].pattern =
-//   /(\b(?:model|datasource|enum|generator|type)\s+)[\w.\\]+/
+Prism.languages.javascript["class-name"] =
+  /(\b(?:model|datasource|enum|generator|type)s+)[w.\\]+/;
 
 Prism.languages.insertBefore("prisma", "function", {
   annotation: {
@@ -31,7 +31,7 @@ export const components = {
   h1: ({ children = "", ...props }) => {
     const link = children.replace(" ", "-").toLocaleLowerCase();
     return (
-      <h1 id={link} className="text-2xl font-semibold group">
+      <h1 id={link} className="mt-4 mb-2 text-2xl font-semibold group">
         <a href={`#${link}`} className="mr-2 -ml-6">
           <Image
             src="/hashtag.svg"
@@ -48,7 +48,7 @@ export const components = {
   h2: ({ children = "", ...props }) => {
     const link = children.replace(" ", "-").toLocaleLowerCase();
     return (
-      <h2 id={link} className="text-xl font-semibold group">
+      <h2 id={link} className="mt-4 mb-2 text-xl font-semibold group">
         <a href={`#${link}`} className="mr-2 -ml-6">
           <Image
             src="/hashtag.svg"
@@ -65,7 +65,7 @@ export const components = {
   h3: ({ children = "", ...props }) => {
     const link = children.replace(" ", "-").toLocaleLowerCase();
     return (
-      <h3 id={link} className="text-lg font-medium group">
+      <h3 id={link} className="mt-4 mb-2 text-lg font-medium group">
         <a href={`#${link}`} className="mr-2 -ml-6">
           <Image
             src="/hashtag.svg"
@@ -80,13 +80,25 @@ export const components = {
     );
   },
   pre: ({ children = "", ...props }) => (
-    <pre className="overflow-x-auto whitespace-pre">{children}</pre>
+    <pre className="my-4 overflow-x-auto whitespace-pre">{children}</pre>
   ),
   code: ({ children = "", className = "", ...props }) => {
-    // useEffect(() => {
-    //   Prism.highlightAll();
-    // }, []);
+    useEffect(() => {
+      Prism.highlightAll();
+    }, []);
+    console.log(className);
 
-    return <code className={className || "language-markup"}>{children}</code>;
+    return (
+      <code
+        className={
+          className ||
+          "bg-gray-200 text-gray-600  p-0.5 rounded-md border-gray-300"
+        }>
+        {children}
+      </code>
+    );
   },
+  p: ({ children = "", ...props }) => (
+    <p className="mb-2 leading-6 text-justify">{children}</p>
+  ),
 };
