@@ -3,6 +3,10 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import Prism from "prismjs";
+import { useToast } from "hooks/toast";
+import slugify from "utils/slugfy";
+import { useRouter } from "next/router";
+import { useClipboard } from "@chakra-ui/hooks";
 
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 Prism.languages.prisma = Prism.languages.extend("clike", {
@@ -29,10 +33,24 @@ Prism.languages.json5 = Prism.languages.js;
 
 export const components = {
   h1: ({ children = "", ...props }) => {
-    const link = children.replace(" ", "-").toLocaleLowerCase();
+    const { asPath } = useRouter();
+    const { addPositiveToast } = useToast();
+    const { onCopy } = useClipboard(
+      `${process.env.NEXT_PUBLIC_LOCAL_URL}${asPath.split("#")[0]}#${slugify(
+        children
+      )}`
+    );
+
+    const handleCopy = () => {
+      onCopy();
+      addPositiveToast("Link Copied", "success");
+    };
+
     return (
-      <h1 id={link} className="mt-4 mb-2 text-2xl font-semibold group">
-        <a href={`#${link}`} className="mr-2 -ml-6">
+      <h1
+        id={slugify(children)}
+        className="mt-4 mb-2 text-2xl font-semibold group">
+        <button onClick={handleCopy} className="mr-2 -ml-6 focus:outline-none">
           <Image
             src="/hashtag.svg"
             width={17}
@@ -40,16 +58,29 @@ export const components = {
             alt={children}
             className="opacity-0 group-hover:opacity-100"
           />
-        </a>
+        </button>
         {children}
       </h1>
     );
   },
   h2: ({ children = "", ...props }) => {
-    const link = children.replace(" ", "-").toLocaleLowerCase();
+    const { asPath } = useRouter();
+    const { addPositiveToast } = useToast();
+    const { onCopy } = useClipboard(
+      `${process.env.NEXT_PUBLIC_LOCAL_URL}${asPath.split("#")[0]}#${slugify(
+        children
+      )}`
+    );
+
+    const handleCopy = () => {
+      onCopy();
+      addPositiveToast("Link Copied", "success");
+    };
     return (
-      <h2 id={link} className="mt-4 mb-2 text-xl font-semibold group">
-        <a href={`#${link}`} className="mr-2 -ml-6">
+      <h2
+        id={slugify(children)}
+        className="mt-4 mb-2 text-xl font-semibold group">
+        <button onClick={handleCopy} className="mr-2 -ml-6 focus:outline-none">
           <Image
             src="/hashtag.svg"
             width={16}
@@ -57,16 +88,29 @@ export const components = {
             alt={children}
             className="opacity-0 group-hover:opacity-100"
           />
-        </a>
+        </button>
         {children}
       </h2>
     );
   },
   h3: ({ children = "", ...props }) => {
-    const link = children.replace(" ", "-").toLocaleLowerCase();
+    const { asPath } = useRouter();
+    const { addPositiveToast } = useToast();
+    const { onCopy } = useClipboard(
+      `${process.env.NEXT_PUBLIC_LOCAL_URL}${asPath.split("#")[0]}#${slugify(
+        children
+      )}`
+    );
+
+    const handleCopy = () => {
+      onCopy();
+      addPositiveToast("Link Copied", "success");
+    };
     return (
-      <h3 id={link} className="mt-4 mb-2 text-lg font-medium group">
-        <a href={`#${link}`} className="mr-2 -ml-6">
+      <h3
+        id={slugify(children)}
+        className="mt-4 mb-2 text-lg font-medium group">
+        <button onClick={handleCopy} className="mr-2 -ml-6 focus:outline-none">
           <Image
             src="/hashtag.svg"
             width={17}
@@ -74,7 +118,7 @@ export const components = {
             alt={children}
             className="opacity-0 group-hover:opacity-100"
           />
-        </a>
+        </button>
         {children}
       </h3>
     );
@@ -86,13 +130,12 @@ export const components = {
     useEffect(() => {
       Prism.highlightAll();
     }, []);
-    console.log(className);
 
     return (
       <code
         className={
           className ||
-          "bg-gray-200 text-gray-600  p-0.5 rounded-md border-gray-300"
+          "bg-gray-200 text-gray-600  p-0.5 rounded-sm border-gray-300"
         }>
         {children}
       </code>

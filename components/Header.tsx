@@ -3,19 +3,19 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-20 flex items-center h-16 py-8 mb-8 bg-white">
-      <nav className="flex flex-col items-center justify-between flex-1 sm:flex-row">
+    <header className="z-20 flex items-center justify-center w-screen h-16 py-8 mb-8 bg-white ">
+      <nav className="flex flex-col items-center justify-between flex-1 max-w-6xl sm:flex-row">
         <Link href="/" aria-label="Home">
           <a className="text-xl font-medium">DANIEL OLAVIO</a>
         </Link>
         <ul className="flex items-center">
           <li className="mx-2">
-            <Link href="#">
+            <Link href="/posts">
               <a className="hover:underline">Projects</a>
             </Link>
           </li>
           <li className="mx-2">
-            <Link href="#">
+            <Link href="/blog">
               <a className="hover:underline">Blog</a>
             </Link>
           </li>

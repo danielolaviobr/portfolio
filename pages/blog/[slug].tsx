@@ -6,14 +6,30 @@ import { format } from "date-fns";
 import { getMDXComponent } from "mdx-bundler/client";
 import { components } from "components/MdxComponents";
 import Image from "next/image";
+import { useClipboard } from "@chakra-ui/hooks";
+import { useToast } from "hooks/toast";
+import slugify from "utils/slugfy";
 
 export default function PostPage({ meta, code }: Post) {
   const Component = React.useMemo(() => getMDXComponent(code), [code]);
+  const { addPositiveToast } = useToast();
+  const { onCopy } = useClipboard(
+    `${process.env.NEXT_PUBLIC_LOCAL_URL}blog/${meta.slug}/#${slugify(
+      meta.title
+    )}`
+  );
+
+  const handleCopy = () => {
+    onCopy();
+    addPositiveToast("Link Copied", "success");
+  };
 
   return (
-    <div>
-      <h1 id={meta.slug} className="mt-4 mb-2 text-2xl font-semibold group">
-        <a href={`#${meta.slug}`} className="mr-2 -ml-6">
+    <div className="antialiased">
+      <h1
+        id={slugify(meta.title)}
+        className="mt-4 mb-6 text-2xl font-semibold group">
+        <button onClick={handleCopy} className="mr-2 -ml-6 focus:outline-none">
           <Image
             src="/hashtag.svg"
             width={17}
@@ -21,7 +37,7 @@ export default function PostPage({ meta, code }: Post) {
             alt={meta.title}
             className="opacity-0 group-hover:opacity-100"
           />
-        </a>
+        </button>
         {meta.title}
       </h1>
       <Component components={components as any} />
