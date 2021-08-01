@@ -3649,6 +3649,11 @@ normalize-url@^6.0.1:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
 
+obj-str@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/obj-str/-/obj-str-1.1.0.tgz#9df09178a4889ad7693ff1d25c872d67f2688d07"
+  integrity sha512-iQNCv4NPzzVSnG4nVmkBsBwSq3+Z5/X/Yi4omFpzALC4ZbLXd4QByOFqWd+Khh2nQnbzhsklRxbDwhYKHotrYA==
+
 object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
