@@ -2,8 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-.primary-button {
-  @apply px-6 py-2 text-white transition duration-300 ease-in-out rounded bg-black-DEAFAULT hover:bg-black-darker min-w-button hover:shadow-md disabled:shadow-none active:bg-black-light disabled:bg-gray-DEAFAULT disabled:text-gray-light;
+@layer components {
+  .primary-button {
+    @apply px-6 py-2 text-white transition duration-300 ease-in-out rounded bg-black-DEAFAULT hover:bg-black-darker min-w-button hover:shadow-md disabled:shadow-none active:bg-black-light disabled:bg-gray-DEAFAULT disabled:text-gray-light font-semibold;
+  }
+}
+
+@layer base {
+  .polka-bg-gray {
+    background-image: radial-gradient(#e4e4e4 1px, transparent 1px);
+    background-position: 50%;
+    background-size: 20px 20px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-gray-900;
+}
+
+p:not(.token),
+span:not(.token),
+a:not(.token) {
+  @apply text-gray-700;
 }
 
 html,
@@ -83,12 +108,14 @@ pre[class*="language-"] {
 .token.tag,
 .token.constant,
 .token.symbol,
-.token.deleted {
+.token.deleted,
+.token.annotation.punctuation {
   color: #ff79c6;
 }
 
 .token.boolean,
-.token.number {
+.token.number,
+.token.type-class-name {
   color: #bd93f9;
 }
 

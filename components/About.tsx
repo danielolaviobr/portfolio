@@ -48,13 +48,6 @@ export default function About() {
               href="https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira"
               className="font-semibold transition-colors duration-100 hover:text-prisma"
               rel="noreferrer">
-              <Image
-                src={prisma}
-                width={16}
-                height={16}
-                priority
-                aria-label="Prisma"
-              />{" "}
               <RoughNotation
                 type="highlight"
                 iterations={1}
@@ -64,6 +57,13 @@ export default function About() {
                 order={2}
                 multiline
                 show>
+                <Image
+                  src={prisma}
+                  width={16}
+                  height={16}
+                  priority
+                  aria-label="Prisma"
+                />{" "}
                 Prisma Ambassador
               </RoughNotation>{" "}
             </a>{" "}

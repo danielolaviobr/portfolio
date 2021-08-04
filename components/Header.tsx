@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 
 export default function Header() {
   return (
@@ -23,41 +24,41 @@ export default function Header() {
           <li className="mx-2">
             <a
               href="https://www.youtube.com/channel/UCyyR0RgWUsfUeyy-5l9BBfw"
-              className="hover:underline"
+              className="text-xl transition-colors duration-150 hover:text-red-600"
               aria-label="Youtube"
               target="_blank"
               rel="noopener noreferrer">
-              Youtube
+              <FaYoutube />
             </a>
           </li>
           <li className="mx-2">
             <a
-              className="hover:underline"
+              className="text-xl transition-colors duration-150 hover:text-purple-500"
               href="https://github.com/danielolaviobr"
               aria-label="GitHub"
               target="_blank"
               rel="noopener noreferrer">
-              GitHub
+              <FaGithub />
             </a>
           </li>
           <li className="mx-2">
             <a
-              className="hover:underline"
+              className="text-xl transition-colors duration-150 hover:text-blue-400"
               href="https://twitter.com/danielolaviobr"
-              aria-label="GitHub"
+              aria-label="Twitter"
               target="_blank"
               rel="noopener noreferrer">
-              Twitter
+              <FaTwitter />
             </a>
           </li>
           <li className="mx-2">
             <a
-              className="hover:underline"
+              className="text-xl transition-colors duration-150 hover:text-blue-600"
               href="https://www.linkedin.com/in/daniel-olavio/"
               aria-label="LinkedIn"
               target="_blank"
               rel="noopener noreferrer">
-              LinkedIn
+              <FaLinkedin />
             </a>
           </li>
         </ul>

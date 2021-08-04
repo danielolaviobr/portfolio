@@ -118,8 +118,8 @@ model Video {
   url         String   @unique
   description String?
   createdAt   DateTime @default(now()) @map("created_at")
-  creator   Creator? @relation(fields: [creatorId], references: [id])
-  creatorId String
+  creator     Creator? @relation(fields: [creatorId], references: [id])
+  creatorId   String
 
   @@map("videos")
 }

@@ -1,3 +1,5 @@
+import { Comment as PrismaComment } from "@prisma/client";
+
 export type PostMeta = {
   title: string;
   publishedAt: any;
@@ -12,4 +14,10 @@ export type PostMeta = {
 export type Post = {
   meta: PostMeta;
   code?: any;
+  comments: string;
 };
+
+export interface Comment extends PrismaComment {
+  createdAt: string;
+  children: Comment[];
+}

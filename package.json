@@ -12,7 +12,10 @@
     "@chakra-ui/hooks": "^1.5.4",
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^11.0.1",
+    "@prisma/client": "^2.28.0",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "date-fns": "^2.23.0",
     "esbuild": "^0.12.16",
     "framer-motion": "^4.1.17",
@@ -21,12 +24,16 @@
     "mdast-util-mdx": "^0.1.0",
     "mdx-bundler": "^5.2.1",
     "next": "11.0.1@canary",
+    "next-seo": "^4.26.0",
     "next-transpile-modules": "^8.0.0",
     "obj-str": "^1.1.0",
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.24.1",
+    "public-ip": "^4.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.2.0",
+    "react-query": "^3.19.1",
     "react-rough-notation": "^1.0.1",
     "remark-gfm": "^1.0.0",
     "remark-slug": "^6.1.0",
@@ -34,6 +41,7 @@
     "zustand": "^3.5.7"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/glob": "^7.1.4",
     "@types/prismjs": "^1.16.6",
     "@types/react": "^17.0.15",
@@ -42,6 +50,7 @@
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
     "postcss": "^8.3.6",
+    "prisma": "^2.28.0",
     "tailwindcss": "^2.2.7",
     "typescript": "^4.3.5"
   }

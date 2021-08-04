@@ -20,6 +20,7 @@ module.exports = {
       backgroundColor: ["active", "disabled"],
       textColor: ["active", "disabled"],
       boxShadow: ["disabled"],
+      borderWidth: ["focus"],
     },
   },
   plugins: [require("@tailwindcss/line-clamp")],

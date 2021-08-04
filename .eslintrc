@@ -1,6 +1,18 @@
 {
   "extends": ["next", "next/core-web-vitals"],
   "rules": {
-    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }]
+    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+    "import/no-anonymous-default-export": [
+      "warning",
+      {
+        "allowArray": true,
+        "allowArrowFunction": true,
+        "allowAnonymousClass": true,
+        "allowAnonymousFunction": true,
+        "allowCallExpression": true, // The true value here is for backward compatibility
+        "allowLiteral": true,
+        "allowObject": true
+      }
+    ]
   }
 }
