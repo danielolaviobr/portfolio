@@ -26,6 +26,7 @@ const Comment = React.forwardRef(
   ) => {
     const nestedComments = (comment.children || []).map((childComment) => (
       <Comment
+        key={childComment.id}
         className="ml-4 min-w-min"
         comment={childComment}
         handleSubmitComment={handleSubmitComment}

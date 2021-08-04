@@ -2,6 +2,7 @@
   "extends": ["next", "next/core-web-vitals"],
   "rules": {
     "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
+    "react/display-name": [0, { "ignoreTranspilerName": false }],
     "import/no-anonymous-default-export": [
       1,
       {
