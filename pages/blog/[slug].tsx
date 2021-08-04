@@ -146,7 +146,7 @@ export default function PostPage({
           </button>
           <section className="flex flex-col mt-6">
             {data.map((comment) => (
-              <div className="mt-6">
+              <div className="mt-6" key={comment.id}>
                 <Comment
                   comment={comment}
                   handleSubmitComment={handleSubmitComment}

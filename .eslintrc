@@ -3,7 +3,7 @@
   "rules": {
     "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
     "import/no-anonymous-default-export": [
-      "warning",
+      1,
       {
         "allowArray": true,
         "allowArrowFunction": true,
