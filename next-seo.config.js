@@ -8,6 +8,14 @@ export default {
     locale: "en_IE",
     url: "https://www.url.ie/",
     site_name: "Daniel Olavio",
+    images: [
+      {
+        url: "/profie.jpg",
+        width: 850,
+        height: 650,
+        alt: "Daniel Olavio",
+      },
+    ],
     description:
       "Hey, I'm Daniel. I'm passionate about learning new skills and technoloies. I work as a software engineer at Loggi where our goal is to connect people through logistics. I'm also a Prisma Ambassador where I help other developers work with Prisma.",
   },

@@ -96,7 +96,7 @@ export default function PostPage({
       <NextSeo
         openGraph={{
           title: meta.title,
-          description: "Description of open graph article",
+          description: meta.description,
           url: "https://www.example.com/articles/article-title",
           type: "article",
           article: {
