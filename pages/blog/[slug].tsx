@@ -16,7 +16,6 @@ import { queryClient } from "utils/react-query";
 import Comment from "components/Comment";
 import commentParser, { addToComments } from "utils/commentParser";
 import { NextSeo } from "next-seo";
-import "../../styles/blog.module.scss";
 
 interface MutationProps {
   comment: string;
