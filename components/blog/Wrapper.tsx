@@ -7,7 +7,7 @@ export default function Wrapper() {
         <button className="mb-12 primary-button">Teste de butão</button>
         <button className="mb-12 primary-button">Teste de butão</button>
         <button className="mb-12 primary-button">Teste de butão</button>
-        <button className="mb-12 primary-button">Teste de butão</button>
+        <button className="mb-12 primary-button">Teste de botão</button>
         <button className="primary-button">Teste de butão</button>
       </div>
     </section>

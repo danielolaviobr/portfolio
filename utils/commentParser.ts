@@ -39,6 +39,4 @@ export const addToComments = (
   return comments;
 };
 
-const recursion = () => {};
-
 export default commentParser;
