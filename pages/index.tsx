@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const token = await getToken();
 
-  const limit = "3";
+  const limit = "4";
   const type = "tracks";
 
   const { data } = await axios(

@@ -36,7 +36,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Footer />
         </div>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
