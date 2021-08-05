@@ -142,6 +142,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     id: item.id,
   }));
 
+  console.log(songs);
+
   return {
     props: { posts, songs },
   };
