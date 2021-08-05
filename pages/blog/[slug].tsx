@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import React, { useRef, useState } from "react";
 import type { Post, Comment as CommentData } from "types/Post";
 import { getAllPostsMeta, getPostBySlug } from "utils/mdx";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { getMDXComponent } from "mdx-bundler/client";
 import { components } from "components/MdxComponents";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import Comment from "components/Comment";
 import commentParser, { addToComments } from "utils/commentParser";
 import { NextSeo } from "next-seo";
 import { dehydrate } from "react-query/hydration";
+import mt from "date-fns/esm/locale/mt/index.js";
 
 interface MutationProps {
   comment: string;
@@ -88,11 +89,15 @@ export default function PostPage({ meta, code }: Post) {
   return (
     <>
       <NextSeo
+        title={meta.title}
+        description={meta.description}
+        canonical={`https://www.danielolavio.dev/blog/${meta.slug}`}
         openGraph={{
           title: meta.title,
           description: meta.description,
           url: "https://www.example.com/articles/article-title",
           type: "article",
+          site_name: "Daniel Olavio",
           article: {
             publishedTime: meta.publishedAt,
             tags: [meta.category],
@@ -110,7 +115,7 @@ export default function PostPage({ meta, code }: Post) {
       <div className="mx-4 antialiased md:mx-0">
         <h1
           id={slugify(meta.title)}
-          className="mt-4 mb-6 text-2xl font-semibold group">
+          className="mt-4 mb-2 text-4xl font-bold group">
           <button
             onClick={handleCopy}
             className="mr-2 -ml-6 focus:outline-none">
@@ -124,6 +129,25 @@ export default function PostPage({ meta, code }: Post) {
           </button>
           {meta.title}
         </h1>
+        <div className="flex items-center">
+          <Image
+            src="/profile.jpg"
+            width={32}
+            height={32}
+            alt="Daniel Olavio Ferreira"
+            className="rounded-full"
+            priority
+          />
+          <div className="flex ml-2 text-gray-600 text-md">
+            Daniel Olavio Ferreira <div className="mx-2 text-gray-300">•</div>{" "}
+            {meta.publishedAt}
+          </div>
+        </div>
+        {meta.image && (
+          <div className="mt-10 overflow-hidden rounded-2xl">
+            <Image src={meta.image} width={1920} height={960} alt={meta.alt} />
+          </div>
+        )}
         <Component components={components as any} />
         <div className="w-full h-px my-8 bg-black-DEAFAULT" />
         <section className="flex flex-col">
@@ -171,17 +195,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as { slug: string };
   const post = await getPostBySlug(slug);
 
-  post.meta.publishedAt = format(new Date(post.meta.publishedAt), "dd/MM/yyyy");
-
-  // const comments = await prisma.comment.findMany({
-  //   where: { post: { slug } },
-  //   select: {
-  //     id: true,
-  //     text: true,
-  //     createdAt: true,
-  //     parentId: true,
-  //   },
-  // });
+  post.meta.publishedAt = format(
+    new Date(post.meta.publishedAt),
+    "MMMM dd, yyyy"
+  );
 
   const queryClient = new QueryClient();
 
@@ -205,6 +222,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return parsedComments;
   });
+
+  console.log(post.meta.publishedAt);
 
   return {
     props: {

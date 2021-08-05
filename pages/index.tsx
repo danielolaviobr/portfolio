@@ -16,7 +16,6 @@ import axios from "axios";
 
 interface HomeProps {
   posts: PostMeta[];
-  // songs: Song[];
 }
 
 export default function Home({ posts = [] }: HomeProps) {
@@ -57,10 +56,10 @@ export default function Home({ posts = [] }: HomeProps) {
           ))}
         </section>
         <section>
-          <h2 className="mt-8 text-2xl font-semibold">
-            Check my current favorites
+          <h2 className="mt-12 text-2xl font-semibold">
+            Here is some great music
           </h2>
-          <div className="flex flex-wrap items-center mt-12 md:justify-evenly lg:justify-between">
+          <div className="flex flex-wrap items-center mt-6 md:justify-evenly lg:justify-between">
             {data.map((song) => (
               <Link href={song.link} key={song.id}>
                 <a className="flex flex-1 min-w-full md:flex-none md:min-w-0 md:w-64">

@@ -8,7 +8,6 @@ import Toast from "components/Toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Hydrate } from "react-query/hydration";
 import { ReactQueryDevtools } from "react-query/devtools";
-// import { queryClient } from "utils/react-query";
 import { DefaultSeo } from "next-seo";
 import SEO from "next-seo.config";
 
@@ -40,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </div>
         </div>
       </Hydrate>
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

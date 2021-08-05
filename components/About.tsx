@@ -18,7 +18,7 @@ export default function About() {
               type="highlight"
               iterations={1}
               padding={4}
-              strokeWidth={8}
+              strokeWidth={12}
               color="#00BAFF55"
               order={1}
               multiline
@@ -52,7 +52,7 @@ export default function About() {
                 type="highlight"
                 iterations={1}
                 padding={2}
-                strokeWidth={6}
+                strokeWidth={12}
                 color="#38A16955"
                 order={2}
                 multiline
@@ -77,7 +77,7 @@ export default function About() {
               type="highlight"
               iterations={1}
               padding={[4, 6]}
-              strokeWidth={6}
+              strokeWidth={12}
               color="#7a37b155"
               order={3}
               multiline
@@ -89,7 +89,7 @@ export default function About() {
               type="highlight"
               iterations={1}
               padding={4}
-              strokeWidth={6}
+              strokeWidth={12}
               color="#ffe6006f"
               order={4}
               multiline
