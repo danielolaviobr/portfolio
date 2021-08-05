@@ -1,6 +1,6 @@
 import axios from "axios";
 import publicIp from "public-ip";
-import { FetcherCommets } from "types/Fetcher";
+import { FetcherCommets, FetcherSpotify } from "types/Fetcher";
 import type { Comment } from "types/Post";
 
 export async function commentsFetcher({
@@ -18,5 +18,19 @@ export async function commentsFetcher({
       data: commentData,
     }
   );
+  return data;
+}
+
+export async function spotifyFetcher({
+  limit = 4,
+  type = "tracks",
+}: FetcherSpotify) {
+  const { data } = await axios(`${process.env.NEXT_PUBLIC_LOCAL_URL}/api/songs`, {
+    method: "GET",
+    params: {
+      limit,
+      type,
+    },
+  });
   return data;
 }

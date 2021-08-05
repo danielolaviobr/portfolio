@@ -6,11 +6,11 @@ export default {
   openGraph: {
     type: "website",
     locale: "en_IE",
-    url: "https://www.url.ie/",
+    url: "https://www.danielolavio.dev/",
     site_name: "Daniel Olavio",
     images: [
       {
-        url: "/profie.jpg",
+        url: "/profile.jpg",
         width: 850,
         height: 650,
         alt: "Daniel Olavio",

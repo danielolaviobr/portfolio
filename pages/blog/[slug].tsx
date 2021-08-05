@@ -16,6 +16,7 @@ import { queryClient } from "utils/react-query";
 import Comment from "components/Comment";
 import commentParser, { addToComments } from "utils/commentParser";
 import { NextSeo } from "next-seo";
+import "../../styles/blog.module.scss";
 
 interface MutationProps {
   comment: string;
@@ -42,7 +43,7 @@ export default function PostPage({
     CommentData[]
   >("comments", () => commentsFetcher({ slug: meta.slug, method: "GET" }), {
     initialData: JSON.parse(initialComments),
-    cacheTime: 2000,
+    cacheTime: 30000,
   });
   const { mutate } = useMutation(
     ({ comment, parentId }: MutationProps) =>
@@ -55,8 +56,6 @@ export default function PostPage({
       mutationKey: "comments",
       retry: 2,
       onSuccess: (comment: CommentData) => {
-        // TODO make a function to insert comment in correct place
-        // data.push(comment);
         const updatedData = addToComments(data, comment);
         queryClient.setQueryData("comments", updatedData);
       },

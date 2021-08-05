@@ -12,73 +12,79 @@ interface CommentNextApiRequest extends NextApiRequest {
 }
 
 export default async (req: CommentNextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
-    const ip = req.headers["x-forwarded-for"];
-    const { slug } = req.query;
-    const { comment, parentId } = req.body;
+  try {
+    if (req.method === "POST") {
+      const ip = req.headers["x-forwarded-for"];
+      const { slug } = req.query;
+      const { comment, parentId } = req.body;
 
-    const salt = 8;
-    const hashedIp = await hash(ip, salt);
+      const salt = 8;
+      const hashedIp = await hash(ip, salt);
 
-    let newComment = await prisma.comment.create({
-      data: {
-        text: comment,
-        author: {
-          connectOrCreate: {
-            create: { ip: hashedIp },
-            where: { ip: hashedIp },
-          },
-        },
-        post: {
-          connectOrCreate: {
-            create: { slug },
-            where: { slug },
-          },
-        },
-      },
-      select: {
-        id: true,
-        text: true,
-        createdAt: true,
-        parentId: true,
-      },
-    });
-
-    if (parentId) {
-      newComment = await prisma.comment.update({
-        where: { id: newComment.id },
+      let newComment = await prisma.comment.create({
         data: {
-          parent: { connect: { id: parentId } },
+          text: comment,
+          author: {
+            connectOrCreate: {
+              create: { ip: hashedIp },
+              where: { ip: hashedIp },
+            },
+          },
+          post: {
+            connectOrCreate: {
+              create: { slug },
+              where: { slug },
+            },
+          },
+        },
+        select: {
+          id: true,
+          text: true,
+          createdAt: true,
+          parentId: true,
         },
       });
+
+      if (parentId) {
+        newComment = await prisma.comment.update({
+          where: { id: newComment.id },
+          data: {
+            parent: { connect: { id: parentId } },
+          },
+        });
+      }
+
+      const serializedComment = {
+        ...newComment,
+        createdAt: format(newComment.createdAt, "dd/MM/yyyy"),
+      };
+
+      return res.status(200).json(serializedComment);
+    } else if (req.method === "GET") {
+      const { slug } = req.query;
+      const comments = await prisma.comment.findMany({
+        where: { post: { slug } },
+        select: {
+          id: true,
+          text: true,
+          createdAt: true,
+          parentId: true,
+        },
+      });
+
+      const serializedComments = comments.map((comment) => ({
+        ...comment,
+        createdAt: format(comment.createdAt, "dd/MM/yyyy"),
+      }));
+
+      const parsedComments = commentParser(serializedComments as Comment[]);
+
+      res.status(200).json(parsedComments);
     }
-
-    const serializedComment = {
-      ...newComment,
-      createdAt: format(newComment.createdAt, "dd/MM/yyyy"),
-    };
-
-    return res.status(200).json(serializedComment);
-  } else if (req.method === "GET") {
-    const { slug } = req.query;
-    const comments = await prisma.comment.findMany({
-      where: { post: { slug } },
-      select: {
-        id: true,
-        text: true,
-        createdAt: true,
-        parentId: true,
-      },
-    });
-
-    const serializedComments = comments.map((comment) => ({
-      ...comment,
-      createdAt: format(comment.createdAt, "dd/MM/yyyy"),
-    }));
-
-    const parsedComments = commentParser(serializedComments as Comment[]);
-
-    res.status(200).json(parsedComments);
+    return res
+      .status(405)
+      .json({ message: "Only GET and POST methods are authorized." });
+  } catch (err) {
+    return res.status(500).json(err);
   }
-  res.status(200).json({ name: "Wrong method" });
 };

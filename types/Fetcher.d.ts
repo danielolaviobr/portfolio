@@ -5,3 +5,8 @@ type FetcherCommets = {
   commentData?: { comment: string; parentId: string };
   slug?: string;
 };
+
+type FetcherSpotify = {
+  limit?: number;
+  type?: "tracks" | "artists";
+};
