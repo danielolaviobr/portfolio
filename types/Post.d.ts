@@ -14,7 +14,6 @@ export type PostMeta = {
 export type Post = {
   meta: PostMeta;
   code?: any;
-  comments: string;
 };
 
 export interface Comment extends PrismaComment {

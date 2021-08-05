@@ -16,20 +16,19 @@ import axios from "axios";
 
 interface HomeProps {
   posts: PostMeta[];
-  songs: Song[];
+  // songs: Song[];
 }
 
-export default function Home({ posts = [], songs = [] }: HomeProps) {
+export default function Home({ posts = [] }: HomeProps) {
   const {
     data = [],
     isError,
     isLoading,
     error,
-  } = useQuery<unknown, unknown, Song[]>(
+  } = useQuery<Promise<Song[]>, Error, Song[]>(
     "songs",
     () => spotifyFetcher({ limit: 4, type: "tracks" }),
     {
-      initialData: songs,
       cacheTime: 30000,
     }
   );

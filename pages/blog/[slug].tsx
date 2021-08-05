@@ -11,22 +11,19 @@ import { useToast } from "hooks/toast";
 import slugify from "utils/slugfy";
 import prisma from "utils/prisma";
 import { commentsFetcher } from "utils/fetch";
-import { useMutation, useQuery } from "react-query";
+import { QueryClient, useMutation, useQuery } from "react-query";
 import { queryClient } from "utils/react-query";
 import Comment from "components/Comment";
 import commentParser, { addToComments } from "utils/commentParser";
 import { NextSeo } from "next-seo";
+import { dehydrate } from "react-query/hydration";
 
 interface MutationProps {
   comment: string;
   parentId: string;
 }
 
-export default function PostPage({
-  meta,
-  code,
-  comments: initialComments,
-}: Post) {
+export default function PostPage({ meta, code }: Post) {
   const [selectedCommentId, setSelectedCommentId] = useState<string>();
   const Component = React.useMemo(() => getMDXComponent(code), [code]);
   const { addToast } = useToast();
@@ -37,11 +34,10 @@ export default function PostPage({
     )}`
   );
   const { data, isError, isLoading, error } = useQuery<
-    unknown,
-    unknown,
+    Promise<CommentData | CommentData[]>,
+    Error,
     CommentData[]
   >("comments", () => commentsFetcher({ slug: meta.slug, method: "GET" }), {
-    initialData: JSON.parse(initialComments),
     cacheTime: 30000,
   });
   const { mutate } = useMutation(
@@ -177,28 +173,44 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   post.meta.publishedAt = format(new Date(post.meta.publishedAt), "dd/MM/yyyy");
 
-  const comments = await prisma.comment.findMany({
-    where: { post: { slug } },
-    select: {
-      id: true,
-      text: true,
-      createdAt: true,
-      parentId: true,
-    },
+  // const comments = await prisma.comment.findMany({
+  //   where: { post: { slug } },
+  //   select: {
+  //     id: true,
+  //     text: true,
+  //     createdAt: true,
+  //     parentId: true,
+  //   },
+  // });
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery("comments", async () => {
+    const comments = await prisma.comment.findMany({
+      where: { post: { slug } },
+      select: {
+        id: true,
+        text: true,
+        createdAt: true,
+        parentId: true,
+      },
+    });
+
+    const serializedComments = comments.map((comment) => ({
+      ...comment,
+      createdAt: format(comment.createdAt, "dd/MM/yyyy"),
+    }));
+
+    const parsedComments = commentParser(serializedComments as CommentData[]);
+
+    return parsedComments;
   });
-
-  const serializedComments = comments.map((comment) => ({
-    ...comment,
-    createdAt: format(comment.createdAt, "dd/MM/yyyy"),
-  }));
-
-  const parsedComments = commentParser(serializedComments as CommentData[]);
 
   return {
     props: {
       meta: post.meta,
       code: post.code,
-      comments: JSON.stringify(parsedComments),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
