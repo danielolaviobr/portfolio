@@ -38,7 +38,21 @@ export default function PostPreview({
             <a>{title}</a>
           </Link>
         </h3>
-        <span className="mb-4 text-sm text-gray-400">{date}</span>
+
+        <div className="flex items-center mb-4">
+          <Image
+            src="/profile.jpg"
+            width={32}
+            height={32}
+            alt="Daniel Olavio Ferreira"
+            className="rounded-full"
+            priority
+          />
+          <span className="flex items-center ml-2 text-sm text-gray-400">
+            Daniel Olavio Ferreira <div className="mx-2 text-gray-300">•</div>{" "}
+            {date}
+          </span>
+        </div>
         <p className="line-clamp-4">{description}</p>
         <span className="mt-auto mb-4 font-medium hover:underline">
           <Link href={url} aria-label={title}>
