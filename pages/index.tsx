@@ -33,9 +33,6 @@ export default function Home({ posts = [] }: HomeProps) {
   );
   return (
     <>
-      <Head>
-        <title>Daniel</title>
-      </Head>
       <main className="flex-1 px-4">
         <About />
         <section onClick={() => {}}>

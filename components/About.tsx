@@ -10,7 +10,7 @@ export default function About() {
         <h1 className="mb-4 text-4xl font-semibold">Hey, I'm Daniel!</h1>
         <RoughNotationGroup>
           <p className="mb-4">
-            I'm passionate about learning new skills and technoloies. I work as
+            I'm passionate about learning new skills and technologies. I work as
             a{" "}
             <RoughNotation
               type="highlight"

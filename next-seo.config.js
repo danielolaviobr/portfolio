@@ -10,9 +10,9 @@ export default {
     site_name: "Daniel Olavio",
     images: [
       {
-        url: "/profile.jpg",
-        width: 850,
-        height: 650,
+        url: "/banner.png",
+        width: 3817,
+        height: 2013,
         alt: "Daniel Olavio",
       },
     ],
