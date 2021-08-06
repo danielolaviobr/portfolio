@@ -107,7 +107,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const posts = getAllPostsMeta("post");
 
   posts.forEach((post) => {
-    post.publishedAt = format(new Date(post.publishedAt), "dd/MM/yyyy");
+    post.publishedAt = format(new Date(post.publishedAt), "MMMM dd, yyyy");
   });
 
   const token = await getToken();
@@ -142,5 +142,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: { posts, songs },
+    revalidate: 60 * 60,
   };
 };
