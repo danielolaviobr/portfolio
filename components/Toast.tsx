@@ -8,13 +8,6 @@ import objStr from "obj-str";
 export default function Toast({ message, status }: Omit<ToastData, "id">) {
   return (
     <motion.div
-      // className={`flex px-2 mt-3  rounded-md ${
-      // 	status === "success"
-      // 		? "bg-green-400"
-      // 		: status === "error"
-      // 		? "bg-red-400"
-      // 		: "bg-blue-400"
-      // }`}
       className="flex items-center justify-center mt-3 bg-white rounded-md shadow-md"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
@@ -38,7 +31,7 @@ export default function Toast({ message, status }: Omit<ToastData, "id">) {
           className="text-white "
         />
       </div>
-      <span
+      <h4
         className={objStr({
           "p-2 ml-2 font-semibold": true,
           "text-green-500": status === "success",
@@ -46,7 +39,7 @@ export default function Toast({ message, status }: Omit<ToastData, "id">) {
           "text-blue-400": status === "info",
         })}>
         {message}
-      </span>
+      </h4>
     </motion.div>
   );
 }
