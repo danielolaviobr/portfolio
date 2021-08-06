@@ -139,6 +139,30 @@ yarn prisma migrate dev --name init
 
 This will generate a migration named `init`, to give it another name just change the text after the `--name` and prisma will recognize it as the migration name.
 
+# Querying Data
+
+Now to query data that was stored to the database you will be using the `Prisma Client`. The first thing to do is to install the client package, to do so just run the following command:
+
+```bash
+yarn add @prisma/client
+```
+
+The when the client is installed it will run the `prisma generate` command. This will generate all the types from your schema into your typescript application.
+
+With that taken care of you will be able to instanciate the `Prisma Client` and start querying your data. To instanciate the client and query the data model that were created you can follow the code bellow:
+
+```ts
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+const data = await prisma.video.findMany({ include: { creator: true } });
+```
+
+This will query find all the items in the `videos` table, and also include the `creator` relation, this is achived by passing the `include` parameter and marking the `creator` as true. This way Prisma will know which relations to bring and which not to.
+
+It is possible to pass many more paramenters to the `findMany` method, such as: `where`, `select`, `orderBy`, `take`, `skip`, and many more. These parements will be discussed in a future post.
+
 # Conclusion
 
-With [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) this is all you need to build a one-to-many relation. If you still have any question you can join the [Prisma Slack](https://slack.prisma.io/). You can clone this project [GitHub Repository](https://github.com/danielolaviobr/prisma-one-to-many-example) and give it a try.
+With [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) this is all you need to build a one-to-many relation and query the created data model. If you still have any question you can join the [Prisma Slack](https://slack.prisma.io/). You can clone this project [GitHub Repository](https://github.com/danielolaviobr/prisma-one-to-many-example) and give it a try.
