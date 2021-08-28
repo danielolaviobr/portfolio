@@ -65,7 +65,7 @@ export default function Home({ posts = [] }: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const posts = getAllPostsMeta("post");
 
   posts.forEach((post) => {
