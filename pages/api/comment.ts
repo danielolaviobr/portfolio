@@ -31,9 +31,8 @@ export default async (req: CommentNextApiRequest, res: NextApiResponse) => {
             },
           },
           post: {
-            connectOrCreate: {
-              create: { slug },
-              where: { slug },
+            connect: {
+              slug,
             },
           },
         },
