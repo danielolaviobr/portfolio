@@ -21,13 +21,13 @@ interface HomeProps {
 }
 
 export default function Home({ posts = [] }: HomeProps) {
-  const { data = [] } = useQuery<Promise<Song[]>, Error, Song[]>(
-    "songs",
-    () => spotifyFetcher({ limit: 4, type: "tracks" }),
-    {
-      cacheTime: 30000,
-    }
-  );
+  // const { data = [] } = useQuery<Promise<Song[]>, Error, Song[]>(
+  //   "songs",
+  //   () => spotifyFetcher({ limit: 4, type: "tracks" }),
+  //   {
+  //     cacheTime: 30000,
+  //   }
+  // );
 
   return (
     <>
@@ -55,9 +55,9 @@ export default function Home({ posts = [] }: HomeProps) {
             Here is some great music
           </h2>
           <div className="flex flex-wrap items-center mt-6 md:justify-evenly lg:justify-between">
-            {data.map((song) => (
+            {/* {data.map((song) => (
               <SongCard song={song} key={song.id} />
-            ))}
+            ))} */}
           </div>
         </section>
       </main>
