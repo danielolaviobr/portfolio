@@ -112,7 +112,7 @@ export default function PostPage({ meta, code }: Post) {
           ],
         }}
       />
-      <div className="mx-4 antialiased md:mx-0">
+      <div className="px-4 mx-4 antialiased md:mx-0">
         <h1
           id={slugify(meta.title)}
           className="mt-4 mb-2 text-4xl font-bold group">

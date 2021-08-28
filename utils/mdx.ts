@@ -6,6 +6,7 @@ import gfmPlugin from "remark-gfm";
 import type { PostMeta } from "types/Post";
 import glob from "glob";
 import matter from "gray-matter";
+import prisma from "./prisma";
 
 const ROOT_PATH = process.cwd();
 export const MDX_PATH = path.join(ROOT_PATH, "mdx");
@@ -19,7 +20,7 @@ export const getAllPostsMeta = (category?: PostMeta["category"]) => {
     const source = fs.readFileSync(path.join(filePath), "utf8");
 
     const slug = path.basename(filePath).replace(".mdx", "");
-    const data = matter(source).data as PostMeta;
+    const data = matter(source).data as Omit<PostMeta, "slug">;
 
     return {
       ...data,

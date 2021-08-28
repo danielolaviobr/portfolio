@@ -2,13 +2,12 @@ import { Comment as PrismaComment } from "@prisma/client";
 
 export type PostMeta = {
   title: string;
-  publishedAt: any;
+  publishedAt: string;
   description: string;
-  slug?: any;
+  slug: string;
   category?: "draft" | "project" | "post";
   image?: string;
   alt?: string;
-  source?: string;
 };
 
 export type Post = {

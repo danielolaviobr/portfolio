@@ -1,6 +1,6 @@
 import axios from "axios";
 import publicIp from "public-ip";
-import { FetcherCommets, FetcherSpotify } from "types/Fetcher";
+import { FetcherCommets, FetcherSpotify, PostFetcher } from "types/Fetcher";
 import type { Comment } from "types/Post";
 
 export async function commentsFetcher({
@@ -29,6 +29,20 @@ export async function spotifyFetcher({
 }: FetcherSpotify) {
   const { data } = await axios(
     `${process.env.VERCEL_URL || process.env.NEXT_PUBLIC_LOCAL_URL}/api/songs`,
+    {
+      method: "GET",
+      params: {
+        limit,
+        type,
+      },
+    }
+  );
+  return data;
+}
+
+export async function postsFetcher({ limit = 4, type = "post" }: PostFetcher) {
+  const { data } = await axios(
+    `${process.env.VERCEL_URL || process.env.NEXT_PUBLIC_LOCAL_URL}/api/posts`,
     {
       method: "GET",
       params: {

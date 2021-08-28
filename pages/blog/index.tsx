@@ -27,7 +27,7 @@ export default function Blog({ posts }: BlogProps) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const posts = getAllPostsMeta("post");
+  const posts = await getAllPostsMeta("post");
 
   posts.forEach((post) => {
     post.publishedAt = format(new Date(post.publishedAt), "dd/MM/yyyy");

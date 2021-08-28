@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="z-20 flex items-center justify-center w-screen h-16 py-8 mb-8 bg-white ">
+    <header className="z-20 flex items-center justify-center w-full h-16 px-4 py-8 mb-8">
       <nav className="flex flex-col items-center justify-between flex-1 max-w-6xl sm:flex-row">
         <Link href="/" aria-label="Home">
           <a className="text-xl font-medium">DANIEL OLAVIO</a>

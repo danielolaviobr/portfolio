@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import PostPreview from "components/PostPreview";
 import { format } from "date-fns";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import { getAllPostsMeta } from "utils/mdx";
 import type { PostMeta } from "types/Post";
 import Image from "next/image";
@@ -14,25 +14,21 @@ import type { Song } from "types/Song";
 import getToken from "utils/spotify";
 import axios from "axios";
 import SongCard from "components/SongCard";
+import prisma from "utils/prisma";
 
 interface HomeProps {
   posts: PostMeta[];
 }
 
 export default function Home({ posts = [] }: HomeProps) {
-  console.log(posts, "posts");
-  const {
-    data = [],
-    isError,
-    isLoading,
-    error,
-  } = useQuery<Promise<Song[]>, Error, Song[]>(
+  const { data = [] } = useQuery<Promise<Song[]>, Error, Song[]>(
     "songs",
     () => spotifyFetcher({ limit: 4, type: "tracks" }),
     {
       cacheTime: 30000,
     }
   );
+
   return (
     <>
       <main className="flex-1 px-4">
@@ -69,17 +65,14 @@ export default function Home({ posts = [] }: HomeProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const posts = getAllPostsMeta("post");
 
   posts.forEach((post) => {
     post.publishedAt = format(new Date(post.publishedAt), "MMMM dd, yyyy");
   });
 
-  console.log(posts);
-
   return {
     props: { posts },
-    revalidate: 60 * 60,
   };
 };

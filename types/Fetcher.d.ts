@@ -10,3 +10,8 @@ type FetcherSpotify = {
   limit?: number;
   type?: "tracks" | "artists";
 };
+
+type PostFetcher = {
+  limit?: number;
+  type?: "post" | "project";
+};

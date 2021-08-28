@@ -27,7 +27,19 @@ model User {
 }
 
 model Post {
-  id       String    @id @default(cuid())
-  slug     String    @unique
-  comments Comment[]
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String?
+  publishedAt String    @default("January 01, 2021")
+  category    Category? @default(draft)
+  image       String?
+  alt         String?
+  comments    Comment[]
+}
+
+enum Category {
+  draft
+  project
+  post
 }
