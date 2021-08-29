@@ -11,7 +11,7 @@ export default function Header() {
         </Link>
         <ul className="flex items-center">
           <li className="mx-2">
-            <Link href="/projects">
+            <Link href="#">
               <a className="hover:underline">Projects</a>
             </Link>
           </li>

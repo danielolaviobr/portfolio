@@ -1,7 +1,4 @@
 module.exports = {
-  images: {
-    domains: ["i.scdn.co"],
-  },
   async redirects() {
     return [
       {
@@ -10,5 +7,8 @@ module.exports = {
         permanent: true,
       },
     ];
+  },
+  images: {
+    domains: ["i.scdn.co"],
   },
 };

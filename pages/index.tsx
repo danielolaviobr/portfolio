@@ -15,12 +15,14 @@ import getToken from "utils/spotify";
 import axios from "axios";
 import SongCard from "components/SongCard";
 import prisma from "utils/prisma";
+import getSongs from "utils/getSongs";
 
 interface HomeProps {
   posts: PostMeta[];
+  songs: Song[];
 }
 
-export default function Home({ posts = [] }: HomeProps) {
+export default function Home({ posts = [], songs = [] }: HomeProps) {
   // const { data = [] } = useQuery<Promise<Song[]>, Error, Song[]>(
   //   "songs",
   //   () => spotifyFetcher({ limit: 4, type: "tracks" }),
@@ -55,9 +57,9 @@ export default function Home({ posts = [] }: HomeProps) {
             Here is some great music
           </h2>
           <div className="flex flex-wrap items-center mt-6 md:justify-evenly lg:justify-between">
-            {/* {data.map((song) => (
+            {songs.map((song) => (
               <SongCard song={song} key={song.id} />
-            ))} */}
+            ))}
           </div>
         </section>
       </main>
@@ -72,7 +74,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
     post.publishedAt = format(new Date(post.publishedAt), "MMMM dd, yyyy");
   });
 
+  const songs = await getSongs();
+
   return {
-    props: { posts },
+    props: { posts, songs },
   };
 };
+
+// ! Generate the spotify on build time
