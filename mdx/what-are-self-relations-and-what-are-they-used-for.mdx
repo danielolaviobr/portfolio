@@ -1,0 +1,77 @@
+---
+title: What are self-relations and what are they used for?
+publishedAt: 2021-10-17
+description: When it comes to databases we hear a lot about one-to-one relations, one-to-many relations and many-to-many relations, but what if I told you those are not all that exist?
+category: post
+image: /blog/self-relations.png
+alt: What are self-relations
+---
+
+When it comes to databases we hear a lot about one-to-one relations, one-to-many relations and many-to-many relations, but what if I told you those are not all that exist? You may or may not have heard about self-relations. This is another type of data relation that is not so often talked about, but is very present in various applications accross the internet.
+
+# What it is?
+
+Well first things first, what is this self-relation thing? As the name implies, it is a data relation where our model has a relation with it self. You can think of it as if a piece of data of type `A` needed to contain more information about another piece of data that is also of type `A`. This may sound a little abstract, and it is, but do not worry even though the concept is a bit hard to understand, once you see how it is used and how to use it will make so much more sense.
+
+# What is it used for?
+
+Self-relations are widely used in very large application, some that you propably use every single day. For example: Facebook, Twitter, Instagram, TikTok and many others. They model how users relate to other users. This relation can be a friendship, a follow relation, or anything else that two users may have directly in common. Let's see how that would look like in a data model. For this example I will write the model using [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira), since it makes it very easy to better understand what is going on.
+
+```prisma
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  followersIds String[]
+  followers    User[]     @relation("FollowRelation", fields: [followersIds], references: [id])
+  following    User[]     @relation("FollowRelation")
+}
+```
+
+In this example we can see that our model has three properties that define our relation, they are the `followersIds`, `followers` and `following`. The `followersIds` is our ` ` of foreign keys that will make our relation work. The `followers` and `following` properties are the relation data itself, that would usually be in two different models, but in this case are in only one, since we want do relate our model to itself.
+
+This maybe a simple example but it is not very far from what big tech companies use. In the following section we will go step by step on how to model a self-relation ourselves with [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira).
+
+# Creating self-relations
+
+Ok, let's get started. I'm going to go step by step on how I used sel-relations to implement the comment section in this blog. We will start with a simple `Comment` model that will be our base model.
+
+```prisma
+model Comment {
+  id        String    @id @default(cuid())
+  text      String
+  createdAt DateTime  @default(now()) @map("created_at")
+}
+```
+
+This is our base model, of course there is more data in the actual one, but for us this is more than enough. Our goal now is to implement a comment section similar to what you see on [Reddit](https://www.reddit.com/) for example, where one comment may have many child comments and one comment may have one parent comment. So how do we start to implement this? First let's say that our comment may have a parent comment, this will make our model look like this:
+
+```prisma
+model Comment {
+  id        String    @id @default(cuid())
+  text      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  parentId  String?
+  parent    Comment?
+}
+```
+
+You can see that we created the `parentId` and the `parent` properties. The `parentId` is our foreign key, and the `parent` is our relation data. You can see as well that we tagged both with the `?` that in the [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) syntax means that it can be `null`, this is beacause a comment may not have a parent comment, so this field may be empty.
+
+Now we need complete this relation by adding our `children` property to the model.
+
+```prisma
+model Comment {
+  id        String    @id @default(cuid())
+  text      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  parentId  String?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  children  Comment[] @relation("CommentToComment")
+}
+```
+
+This time we use the `[]` instead of the `?`, this is because even though a comment may have no child comments, it will not be `null`, it will be an empty `array`. We had to add as well the `@relation` decorator, this is because we need to let [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) know that this is a relation field and to what field it is relating to and how is it doing so (the relation keys).
+
+# Conclusion
+
+That is it. With this information [Prisma](https://www.prisma.io/?utm_source=Prisma%20Ambassador&utm_medium=Blog%20post&utm_campaign=Prisma%20AP%20Daniel%20Olavio%20Ferreira) can handle the database part for us. If you have any questions, feel free to leave a comment down below and I would love to hear about how you would use self-relations know that you know how they work and how to implement them.

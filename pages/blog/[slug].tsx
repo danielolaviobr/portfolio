@@ -145,7 +145,13 @@ export default function PostPage({ meta, code }: Post) {
         </div>
         {meta.image && (
           <div className="mt-10 overflow-hidden rounded-2xl">
-            <Image src={meta.image} width={1920} height={960} alt={meta.alt} />
+            <Image
+              src={meta.image}
+              width={1920}
+              height={960}
+              alt={meta.alt}
+              className="object-cover"
+            />
           </div>
         )}
         <Component components={components as any} />
@@ -222,8 +228,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return parsedComments;
   });
-
-  console.log(post.meta.publishedAt);
 
   return {
     props: {
