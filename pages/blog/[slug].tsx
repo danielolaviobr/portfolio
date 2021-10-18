@@ -18,6 +18,7 @@ import commentParser, { addToComments } from "utils/commentParser";
 import { NextSeo } from "next-seo";
 import { dehydrate } from "react-query/hydration";
 import mt from "date-fns/esm/locale/mt/index.js";
+import Head from "next/head";
 
 interface MutationProps {
   comment: string;
@@ -88,6 +89,9 @@ export default function PostPage({ meta, code }: Post) {
 
   return (
     <>
+      <Head>
+      <meta property="twitter:image" content={`https://www.danielolavio.dev${meta.image}`}/>
+      </Head>
       <NextSeo
         title={meta.title}
         description={meta.description}
@@ -104,7 +108,7 @@ export default function PostPage({ meta, code }: Post) {
           },
           images: [
             {
-              url: `https://www.danielolavio.dev${meta.image}`,
+              url: meta.image,
               width: 850,
               height: 650,
               alt: meta.title,
