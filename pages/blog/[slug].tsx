@@ -104,15 +104,11 @@ export default function PostPage({ meta, code }: Post) {
           },
           images: [
             {
-              url: meta.image,
+              url: `https://www.danielolavio.dev${meta.image}`,
               width: 850,
               height: 650,
               alt: meta.title,
             },
-            {
-              url: meta.image,
-              alt: meta.title,
-            }
           ],
         }}
         twitter={{
