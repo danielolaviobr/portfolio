@@ -110,10 +110,10 @@ export default function PostPage({ meta, code }: Post) {
               alt: meta.title,
             },
           ],
-          twitter: {
-            handle: "@danielolaviobr",
-            iamge: meta.image
-          }
+        }}
+        twitter={{
+          handle: "@danielolaviobr",
+          image: meta.image
         }}
       />
       <div className="px-4 mx-4 antialiased md:mx-0">
