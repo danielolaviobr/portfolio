@@ -109,12 +109,15 @@ export default function PostPage({ meta, code }: Post) {
               height: 650,
               alt: meta.title,
             },
+            {
+              url: meta.image,
+              alt: meta.title,
+            }
           ],
         }}
         twitter={{
           handle: "@danielolaviobr",
-          cardType: 'summary_large_image',
-          image: meta.image
+          cardType: 'summary_large_image'
         }}
       />
       <div className="px-4 mx-4 antialiased md:mx-0">
