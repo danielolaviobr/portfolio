@@ -107,9 +107,13 @@ export default function PostPage({ meta, code }: Post) {
               url: meta.image,
               width: 850,
               height: 650,
-              alt: "Photo of text",
+              alt: meta.title,
             },
           ],
+          twitter: {
+            handle: "@danielolaviobr",
+            iamge: meta.image
+          }
         }}
       />
       <div className="px-4 mx-4 antialiased md:mx-0">
