@@ -23,14 +23,6 @@ interface HomeProps {
 }
 
 export default function Home({ posts = [], songs = [] }: HomeProps) {
-  // const { data = [] } = useQuery<Promise<Song[]>, Error, Song[]>(
-  //   "songs",
-  //   () => spotifyFetcher({ limit: 4, type: "tracks" }),
-  //   {
-  //     cacheTime: 30000,
-  //   }
-  // );
-
   return (
     <>
       <main className="flex-1 px-4">
@@ -38,7 +30,7 @@ export default function Home({ posts = [], songs = [] }: HomeProps) {
         <section onClick={() => {}}>
           <h2 className="mt-8 text-2xl font-semibold">
             <Link href="/blog">
-              <a>Recent Posts</a>
+              <a className="hover:underline">Recent Posts</a>
             </Link>
           </h2>
           {posts.map((post) => (
